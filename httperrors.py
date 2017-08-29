@@ -5,7 +5,7 @@ import requests
 import string
 from bs4 import BeautifulSoup
 
-my_site = "http://www.elizabethzagroba.com"
+my_site = "https://www.elizabethzagroba.com"
 my_site_response = requests.get(my_site)
 page = str(BeautifulSoup(my_site_response.content, "html.parser"))
 file = io.FileIO("list_of_all_links.txt", "w")
