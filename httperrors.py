@@ -20,16 +20,15 @@ def getURL(page):
     return url, end_quote
 
 count = 0
-while True:
-    file = open('list_of_all_links.txt', 'a')
-    url, n = getURL(page)
-    page = page[n:]
-    if url:
-    	http_response = str(requests.head(url))
-    	if ("<Response [2" not in http_response) and ("<Response [3" not in http_response):
-    		file.write(http_response + url + '\n')
-    		count += 1
-    else:
-    	file.close()
-    	print("There are " + str(count) + " links without 200 or 300 range http responses on your site.")
-    	break
+with open('list_of_all_links.txt', 'a') as file:
+    while True: 
+	    url, n = getURL(page)
+	    page = page[n:]
+	    if url:
+	    	http_response = str(requests.head(url))
+	    	if ("<Response [2" not in http_response) and ("<Response [3" not in http_response):
+	    		file.write(http_response + url + '\n')
+	    		count += 1
+	    else:
+	    	print("There are " + str(count) + " links without 200 or 300 range http responses on your site.")
+	    	break
