@@ -1,8 +1,11 @@
 # Mission: Find http codes that aren't in the 200 or 300 range for all the links on a single page
 
 import io
+import http
 import requests
+import ssl
 import string
+import urllib.request
 from bs4 import BeautifulSoup
 from bs4 import SoupStrainer
 
@@ -11,6 +14,7 @@ my_site_response = requests.get(MY_SITE)
 only_external_links = SoupStrainer(target="_blank")
 page = str(BeautifulSoup(my_site_response.content, "html.parser", parse_only=only_external_links))
 file = io.FileIO('list_of_all_links.txt', 'w')
+ssl._create_default_https_context = ssl._create_unverified_context # allows opening of links on page w/o ssl errors
 
 def getURL(page):
 	start_link = page.find("a href")
@@ -27,10 +31,11 @@ with open('list_of_all_links.txt', 'a') as file:
 		url, n = getURL(page)
 		page = page[n:]
 		if url:
-			http_response = str(requests.head(url))
-			if ("<Response [2" not in http_response) and ("<Response [3" not in http_response):
-				file.write(http_response + url + '\n')
+			try:
+				req = urllib.request.urlopen(url)
+			except urllib.error.URLError as explanation:
+				file.write(str(explanation) + " " + url + '\n')
 				count += 1
 		else:
-			print("There are " + str(count) + " links without 200 or 300 range http responses on your site.")
+			print("There are " + str(count) + " links outside of the 200 or 300 range of http responses on your site.")
 			break
