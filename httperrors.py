@@ -9,7 +9,6 @@ import urllib.request
 from bs4 import BeautifulSoup
 from bs4 import SoupStrainer
 
-
 MY_SITE = "http://www.elizabethzagroba.com"
 my_site_response = requests.get(MY_SITE)
 only_external_links = SoupStrainer(target="_blank")
