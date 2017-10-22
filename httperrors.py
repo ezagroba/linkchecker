@@ -15,7 +15,6 @@ MY_SITE = "http://www.elizabethzagroba.com"
 my_site_response = requests.get(MY_SITE)
 only_external_links = SoupStrainer(target="_blank")
 page = str(BeautifulSoup(my_site_response.content, "html.parser", parse_only=only_external_links))
-ssl._create_default_https_context = ssl._create_unverified_context # allows opening of links on page w/o ssl errors
 
 def getURL(page):
 	start_link = page.find("a href")
