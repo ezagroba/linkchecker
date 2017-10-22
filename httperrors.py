@@ -1,6 +1,7 @@
 # Mission: Find http codes that aren't in the 200 or 300 range for all the links on a single page
 
-import io
+import os
+import errno
 import http
 import requests
 import ssl
@@ -9,11 +10,11 @@ import urllib.request
 from bs4 import BeautifulSoup
 from bs4 import SoupStrainer
 
+
 MY_SITE = "http://www.elizabethzagroba.com"
 my_site_response = requests.get(MY_SITE)
 only_external_links = SoupStrainer(target="_blank")
 page = str(BeautifulSoup(my_site_response.content, "html.parser", parse_only=only_external_links))
-file = io.FileIO('list_of_all_links.txt', 'w')
 ssl._create_default_https_context = ssl._create_unverified_context # allows opening of links on page w/o ssl errors
 
 def getURL(page):
@@ -24,6 +25,11 @@ def getURL(page):
 	end_quote = page.find('"', start_quote + 1)
 	url = page[start_quote + 1: end_quote]
 	return url, end_quote
+
+try:
+    os.remove('list_of_all_links.txt')
+except OSError:
+    pass
 
 count = 0
 with open('list_of_all_links.txt', 'a') as file:
