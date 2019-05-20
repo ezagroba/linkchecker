@@ -1,6 +1,0 @@
-<Response [403]>http://www.ministryoftesting.com/training-events/testbash-philadelphia-2016/
-<Response [404]>http://codingbat.com/
-<Response [403]>http://testobsessed.com/
-<Response [403]>https://www.ministryoftesting.com/training-events/
-<Response [999]>http://www.linkedin.com/in/ezagroba/
-<Response [405]>https://www.instagram.com/ezagroba/
